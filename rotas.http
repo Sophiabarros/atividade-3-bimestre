@@ -1,0 +1,17 @@
+POST http://localhost:3333/create-movie
+Content-Type: application/json
+
+{
+    "titulo" : "Razões do porquê eu deveria explodir a escola",
+    "genero" : "documentário",
+    "duracao" : "153 minutos", 
+    "classificacao" : "18"
+}
+
+###
+DELETE http://localhost:3333/delete-movie/1
+
+###
+GET http://localhost:3333/all-movies
+
+PUT http://localhost:3333/update-movie/
