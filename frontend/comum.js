@@ -54,7 +54,7 @@ async function buscarFilme(id) {
     return filme
 }
 
-// cor do canhoto segue a classificação indicativa oficial (L, 10, 12, 14, 16 e 18)
+// a cor das barras da claquete segue a classificação indicativa oficial (L, 10, 12, 14, 16 e 18)
 // valores fora do padrão, como 15 ou 27, usam a faixa de cima
 function faixaClassificacao(classificacao) {
     if (classificacao <= 0) return "l"
@@ -65,42 +65,51 @@ function faixaClassificacao(classificacao) {
     return "18"
 }
 
-function canhotoHtml(classificacao) {
+// tudo que a tela precisa para mostrar a classificação de um filme
+function dadosNota(classificacao) {
     const nota = Number(classificacao)
     const informada = String(classificacao ?? "").trim() !== "" && !Number.isNaN(nota)
     const livre = informada && nota === 0
     const anos = nota === 1 ? "ano" : "anos"
 
-    const faixa = informada ? faixaClassificacao(nota) : "nd"
-    const numero = !informada ? "?" : livre ? "L" : nota
-    const legenda = !informada ? "idade" : livre ? "livre" : anos
-    const rotulo = !informada ? "ainda não informada" : livre ? "livre" : `${nota} ${anos}`
-
-    return `
-        <div class="ingresso-canhoto nota-${faixa}" role="img" aria-label="Classificação indicativa: ${rotulo}">
-            <span class="canhoto-numero" aria-hidden="true">${numero}</span>
-            <span class="canhoto-legenda" aria-hidden="true">${legenda}</span>
-        </div>
-    `
+    return {
+        classe: informada ? `nota-${faixaClassificacao(nota)}` : "nota-nd",
+        numero: !informada ? "?" : livre ? "Livre" : nota,
+        legenda: !informada || livre ? "" : anos
+    }
 }
 
-// conteúdo do ingresso, usado na lista e na página de apagar
-function ingressoConteudo(filme, acoes = "") {
+// troca a classe nota-* do elemento, que muda a cor das barras da claquete
+function definirNota(elemento, classificacao) {
+    const antigas = [...elemento.classList].filter((classe) => classe.startsWith("nota-"))
+
+    elemento.classList.remove(...antigas)
+    elemento.classList.add(dadosNota(classificacao).classe)
+}
+
+// conteúdo da claquete, usado na lista e na página de apagar
+function claqueteConteudo(filme, acoes = "") {
+    const nota = dadosNota(filme.classificacao)
+
     return `
-        <div class="ingresso-corpo">
-            <p class="ingresso-titulo">${escapar(filme.titulo)}</p>
-            <dl class="dados">
-                <div>
+        <div class="barras" aria-hidden="true"><span></span><span></span></div>
+        <div class="claquete-corpo">
+            <p class="claquete-titulo">${escapar(filme.titulo)}</p>
+            <dl class="celulas">
+                <div class="celula">
                     <dt>Gênero</dt>
                     <dd>${escapar(filme.genero)}</dd>
                 </div>
-                <div>
+                <div class="celula">
                     <dt>Duração</dt>
                     <dd>${escapar(filme.duracao)}</dd>
+                </div>
+                <div class="celula celula-nota">
+                    <dt>Classificação</dt>
+                    <dd><span class="nota-numero">${nota.numero}</span> <span class="nota-legenda">${nota.legenda}</span></dd>
                 </div>
             </dl>
             ${acoes}
         </div>
-        ${canhotoHtml(filme.classificacao)}
     `
 }

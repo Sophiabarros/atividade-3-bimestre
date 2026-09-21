@@ -1,7 +1,7 @@
 // usado pela página apagar.html
 const estado = document.querySelector("#estado")
 const confirmacao = document.querySelector("#confirmacao")
-const ingresso = document.querySelector("#ingresso")
+const claquete = document.querySelector("#claquete")
 const botaoApagar = document.querySelector("#botao-apagar")
 
 const id = idDaUrl()
@@ -20,7 +20,8 @@ async function carregarFilme() {
     try {
         const filme = await buscarFilme(id)
 
-        ingresso.innerHTML = ingressoConteudo(filme)
+        claquete.innerHTML = claqueteConteudo(filme)
+        definirNota(claquete, filme.classificacao)
         estado.hidden = true
         confirmacao.hidden = false
     } catch (erro) {

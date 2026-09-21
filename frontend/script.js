@@ -15,12 +15,12 @@ function criarIngresso(filme) {
 
     const acoes = `
         <div class="acoes">
-            <a class="botao-ingresso" href="frontend/editar.html?id=${filme.id}" aria-label="Editar ${titulo}">${ICONE_EDITAR}Editar</a>
-            <a class="botao-ingresso perigo" href="frontend/apagar.html?id=${filme.id}" aria-label="Apagar ${titulo}">${ICONE_APAGAR}Apagar</a>
+            <a class="botao-claquete" href="frontend/editar.html?id=${filme.id}" aria-label="Editar ${titulo}">${ICONE_EDITAR}Editar</a>
+            <a class="botao-claquete perigo" href="frontend/apagar.html?id=${filme.id}" aria-label="Apagar ${titulo}">${ICONE_APAGAR}Apagar</a>
         </div>
     `
 
-    return `<li class="ingresso" data-id="${filme.id}">${ingressoConteudo(filme, acoes)}</li>`
+    return `<li class="claquete ${dadosNota(filme.classificacao).classe}" data-id="${filme.id}">${claqueteConteudo(filme, acoes)}</li>`
 }
 
 function mostrarFilmes(filmes) {
@@ -43,11 +43,11 @@ function mostrarResultadoDaAcao() {
 
     avisar(mensagem)
 
-    const ingresso = lista.querySelector(`[data-id="${params.get("id")}"]`)
+    const claquete = lista.querySelector(`[data-id="${params.get("id")}"]`)
 
-    if (ingresso) {
-        ingresso.classList.add("salvo")
-        ingresso.scrollIntoView({ block: "nearest" })
+    if (claquete) {
+        claquete.classList.add("salvo")
+        claquete.scrollIntoView({ block: "nearest" })
     }
 
     // limpa a URL pra o aviso não aparecer de novo se a página for recarregada

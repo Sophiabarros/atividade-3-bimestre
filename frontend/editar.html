@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Editar filme</title>
 </head>
@@ -22,29 +21,30 @@
     <main class="coluna estreita">
         <p class="estado" id="estado">Carregando filme...</p>
 
-        <form class="ingresso ingresso-form" id="formulario" aria-labelledby="titulo-pagina" hidden>
-            <div class="ingresso-corpo">
-                <div class="campo">
-                    <label for="titulo">Título</label>
-                    <input type="text" id="titulo" name="titulo" required autocomplete="off">
-                </div>
+        <form class="claquete claquete-form nota-nd" id="formulario" aria-labelledby="titulo-pagina" hidden>
+            <div class="barras" aria-hidden="true"><span></span><span></span></div>
+            <div class="claquete-corpo">
+                <div class="celulas">
+                    <div class="celula celula-larga campo">
+                        <label for="titulo">Título</label>
+                        <input type="text" id="titulo" name="titulo" required autocomplete="off">
+                    </div>
 
-                <div class="campos-duplos">
-                    <div class="campo">
+                    <div class="celula campo">
                         <label for="genero">Gênero</label>
                         <input type="text" id="genero" name="genero" required autocomplete="off">
                     </div>
 
-                    <div class="campo">
+                    <div class="celula campo">
                         <label for="duracao">Duração</label>
                         <input type="text" id="duracao" name="duracao" placeholder="Ex.: 120 minutos" required autocomplete="off">
                     </div>
-                </div>
 
-                <div class="campo campo-curto">
-                    <label for="classificacao">Classificação indicativa</label>
-                    <input type="number" id="classificacao" name="classificacao" min="0" step="1" inputmode="numeric" required aria-describedby="ajuda-classificacao">
-                    <p class="ajuda" id="ajuda-classificacao">Idade mínima em anos. Use 0 para livre.</p>
+                    <div class="celula campo">
+                        <label for="classificacao">Classificação indicativa</label>
+                        <input type="number" id="classificacao" name="classificacao" min="0" step="1" inputmode="numeric" required aria-describedby="ajuda-classificacao">
+                        <p class="ajuda" id="ajuda-classificacao">Idade mínima em anos. Use 0 para livre.</p>
+                    </div>
                 </div>
 
                 <div class="formulario-acoes">
@@ -52,7 +52,6 @@
                     <a class="botao-texto" href="../index.html">Cancelar</a>
                 </div>
             </div>
-            <div class="ingresso-canhoto"></div>
         </form>
     </main>
 

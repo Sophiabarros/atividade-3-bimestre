@@ -6,9 +6,9 @@ const estado = document.querySelector("#estado")
 const editando = document.body.dataset.pagina === "editar"
 const id = idDaUrl()
 
-// o canhoto do ingresso mostra a cor da classificação enquanto a pessoa digita
+// as barras da claquete mudam de cor enquanto a pessoa digita a classificação
 function atualizarPrevia() {
-    formulario.querySelector(".ingresso-canhoto").outerHTML = canhotoHtml(formulario.elements.classificacao.value)
+    definirNota(formulario, formulario.elements.classificacao.value)
 }
 
 function mostrarErro(mensagem) {
