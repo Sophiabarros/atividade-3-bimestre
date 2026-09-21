@@ -15,8 +15,8 @@ function criarIngresso(filme) {
 
     const acoes = `
         <div class="acoes">
-            <a class="botao-ingresso" href="editar.html?id=${filme.id}" aria-label="Editar ${titulo}">${ICONE_EDITAR}Editar</a>
-            <a class="botao-ingresso perigo" href="apagar.html?id=${filme.id}" aria-label="Apagar ${titulo}">${ICONE_APAGAR}Apagar</a>
+            <a class="botao-ingresso" href="frontend/editar.html?id=${filme.id}" aria-label="Editar ${titulo}">${ICONE_EDITAR}Editar</a>
+            <a class="botao-ingresso perigo" href="frontend/apagar.html?id=${filme.id}" aria-label="Apagar ${titulo}">${ICONE_APAGAR}Apagar</a>
         </div>
     `
 
@@ -27,7 +27,7 @@ function mostrarFilmes(filmes) {
     contagem.textContent = filmes.length === 1 ? "1 filme cadastrado" : `${filmes.length} filmes cadastrados`
 
     if (filmes.length === 0) {
-        lista.innerHTML = `<li class="vazio">Nenhum filme cadastrado. <a href="cadastrar.html">Cadastrar o primeiro filme</a></li>`
+        lista.innerHTML = `<li class="vazio">Nenhum filme cadastrado. <a href="frontend/cadastrar.html">Cadastrar o primeiro filme</a></li>`
         return
     }
 

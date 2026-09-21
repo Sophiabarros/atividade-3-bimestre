@@ -8,7 +8,7 @@ const id = idDaUrl()
 
 function mostrarErro(mensagem) {
     estado.hidden = false
-    estado.innerHTML = `${escapar(mensagem)} <a href="index.html">Voltar para a lista</a>`
+    estado.innerHTML = `${escapar(mensagem)} <a href="../index.html">Voltar para a lista</a>`
 }
 
 async function carregarFilme() {
@@ -33,7 +33,7 @@ botaoApagar.addEventListener("click", async () => {
 
     try {
         await chamarApi(`/delete-movie/${id}`, { method: "DELETE" })
-        location.href = "index.html?aviso=apagado"
+        location.href = "../index.html?aviso=apagado"
     } catch (erro) {
         avisar(erro.message, true)
         botaoApagar.disabled = false

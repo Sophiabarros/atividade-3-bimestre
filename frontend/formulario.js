@@ -13,7 +13,7 @@ function atualizarPrevia() {
 
 function mostrarErro(mensagem) {
     estado.hidden = false
-    estado.innerHTML = `${escapar(mensagem)} <a href="index.html">Voltar para a lista</a>`
+    estado.innerHTML = `${escapar(mensagem)} <a href="../index.html">Voltar para a lista</a>`
 }
 
 async function carregarFilme() {
@@ -58,10 +58,10 @@ formulario.addEventListener("submit", async (evento) => {
     try {
         if (editando) {
             await chamarApi(`/update-movie/${id}`, opcoes)
-            location.href = `index.html?aviso=atualizado&id=${id}`
+            location.href = `../index.html?aviso=atualizado&id=${id}`
         } else {
             const resposta = await chamarApi("/create-movie", opcoes)
-            location.href = `index.html?aviso=cadastrado&id=${resposta.id ?? ""}`
+            location.href = `../index.html?aviso=cadastrado&id=${resposta.id ?? ""}`
         }
     } catch (erro) {
         avisar(erro.message, true)
