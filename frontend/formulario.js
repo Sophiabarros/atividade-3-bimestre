@@ -6,7 +6,7 @@ const estado = document.querySelector("#estado")
 const editando = document.body.dataset.pagina === "editar"
 const id = idDaUrl()
 
-// as barras da claquete mudam de cor enquanto a pessoa digita a classificação
+// o selo da classificação muda de cor e de texto enquanto a pessoa digita
 function atualizarPrevia() {
     definirNota(formulario, formulario.elements.classificacao.value)
 }

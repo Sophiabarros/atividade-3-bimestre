@@ -1,21 +1,30 @@
 :root {
-    --set: #EFB93F;
-    --lousa: #141417;
-    --giz: #F2F2EE;
-    --giz-suave: #B7B7B4;
-    --perigo: #B3161E;
-    --perigo-claro: #FF9089;
+    /* sala escura: azul-noite, tons frios */
+    --fundo: #0C1220;
+    --quadro: #030304;
+    --texto: #E3EAF5;
+    --texto-suave: #93A1BA;
+    --acento: #7DC4E8;
+    --acento-claro: #A6D9F2;
+    --perigo: #C81E2B;
+    --perigo-claro: #FF7B86;
 
-    /* classificação indicativa oficial */
-    --nota-l: #0A8A48;
+    /* claquete: placa preta com linhas e listras brancas */
+    --barra-clara: #EEF2F8;
+    --barra-escura: var(--quadro);
+
+    /* classificação indicativa oficial: cor do selo e do número */
+    --nota-l: #0A9B4B;
     --nota-10: #0B7DC9;
-    --nota-12: #F6C600;
-    --nota-14: #F28C1B;
+    --nota-12: #F2C200;
+    --nota-14: #E8701A;
     --nota-16: #D01F26;
-    --nota-18: #141417;
-    --nota-nd: #8A8A92;
+    --nota-18: #0A0A0A;
+    --nota-nd: #2F3B55;
 
     --fonte: "Archivo", Arial, system-ui, sans-serif;
+
+    color-scheme: dark;
 }
 
 *,
@@ -36,8 +45,8 @@
 
 body {
     margin: 0;
-    background: var(--set);
-    color: var(--lousa);
+    background: var(--fundo);
+    color: var(--texto);
     font: 400 1rem/1.5 var(--fonte);
 }
 
@@ -53,7 +62,7 @@ svg {
 }
 
 :focus-visible {
-    outline: 3px solid var(--lousa);
+    outline: 3px solid var(--acento);
     outline-offset: 3px;
 }
 
@@ -96,6 +105,7 @@ h1 {
 .dupla {
     display: block;
     margin-top: 14px;
+    color: var(--texto-suave);
     font-size: 1.0625rem;
     font-weight: 600;
     font-stretch: 100%;
@@ -118,25 +128,30 @@ h2 {
     gap: 6px;
     width: fit-content;
     padding-block: 8px;
-    color: inherit;
+    color: var(--texto-suave);
     font-weight: 600;
     text-decoration: none;
 }
 
 .voltar:hover {
+    color: var(--texto);
     text-decoration: underline;
     text-underline-offset: 4px;
 }
 
+/* mensagens de carregando, erro e lista vazia usam a mesma placa preta */
 .estado,
 .vazio {
     max-width: 52ch;
+    padding: 20px;
+    border: 2px solid var(--barra-clara);
+    background: var(--quadro);
     font-weight: 500;
 }
 
 .estado a,
 .vazio a {
-    color: inherit;
+    color: var(--acento);
 }
 
 /* botões */
@@ -149,29 +164,34 @@ h2 {
     gap: 8px;
     min-height: 48px;
     padding: 12px 22px;
-    border: 2px solid var(--lousa);
+    border: 2px solid transparent;
     border-radius: 4px;
     font: 700 1rem/1.2 var(--fonte);
     text-decoration: none;
     cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .botao-principal {
-    background: var(--lousa);
-    color: var(--giz);
+    border-color: var(--acento);
+    background: var(--acento);
+    color: var(--fundo);
 }
 
 .botao-principal:hover {
-    background: #2C2C33;
+    border-color: var(--acento-claro);
+    background: var(--acento-claro);
 }
 
 .botao-perigo {
+    border-color: var(--perigo);
     background: var(--perigo);
     color: #FFFFFF;
 }
 
 .botao-perigo:hover {
-    background: #CC1E27;
+    border-color: #E02A38;
+    background: #E02A38;
 }
 
 .botao-principal:disabled,
@@ -182,10 +202,14 @@ h2 {
 
 .botao-texto {
     padding: 8px 0;
-    color: inherit;
+    color: var(--texto-suave);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 4px;
+}
+
+.botao-texto:hover {
+    color: var(--texto);
 }
 
 /* lista de claquetes */
@@ -203,33 +227,50 @@ h2 {
     grid-column: 1 / -1;
 }
 
-/* a claquete: barras listradas na cor da classificação e um quadro de giz */
+/* a cor da classificação fica no selo, como nos cinemas */
 
 .claquete {
-    --nota: var(--nota-18);
+    --nota: var(--nota-nd);
+    --nota-texto: var(--texto-suave);
     display: flex;
     flex-direction: column;
-    color: var(--giz);
-    color-scheme: dark;
 }
 
-.nota-l { --nota: var(--nota-l); }
-.nota-10 { --nota: var(--nota-10); }
-.nota-12 { --nota: var(--nota-12); }
-.nota-14 { --nota: var(--nota-14); }
-.nota-16 { --nota: var(--nota-16); }
-.nota-18 { --nota: var(--nota-18); }
-.nota-nd { --nota: var(--nota-nd); }
+.nota-l { --nota: var(--nota-l); --nota-texto: #FFFFFF; }
+.nota-10 { --nota: var(--nota-10); --nota-texto: #FFFFFF; }
+.nota-12 { --nota: var(--nota-12); --nota-texto: #1A1400; }
+.nota-14 { --nota: var(--nota-14); --nota-texto: #FFFFFF; }
+.nota-16 { --nota: var(--nota-16); --nota-texto: #FFFFFF; }
+.nota-18 { --nota: var(--nota-18); --nota-texto: #FFFFFF; }
+.nota-nd { --nota: var(--nota-nd); --nota-texto: var(--texto-suave); }
 
-.claquete :focus-visible {
-    outline-color: var(--set);
+.selo {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 48px;
+    padding-inline: 6px;
+    border-radius: 8px;
+    background: var(--nota);
+    color: var(--nota-texto);
+    font-size: 1.625rem;
+    font-weight: 900;
+    line-height: 1;
 }
+
+/* o selo preto do 18 ganha uma borda clara para aparecer no fundo escuro */
+.nota-18 .selo {
+    box-shadow: inset 0 0 0 2px var(--texto);
+}
+
+/* as duas barras listradas no topo da placa; a de baixo cobre a borda da de cima */
 
 .barras {
     position: relative;
     flex: none;
-    height: 48px;
-    margin-bottom: 4px;
+    height: 46px;
 }
 
 .barras span {
@@ -237,59 +278,66 @@ h2 {
     left: 0;
     right: 0;
     height: 24px;
-    border: 2px solid var(--lousa);
+    border: 2px solid var(--barra-clara);
 }
 
-/* a barra de cima é a que bate */
 .barras span:first-child {
     top: 0;
-    transform-origin: 0 100%;
-    background: repeating-linear-gradient(-58deg, var(--nota) 0 22px, var(--giz) 22px 44px);
+    background: repeating-linear-gradient(-58deg, var(--barra-escura) 0 22px, var(--barra-clara) 22px 44px);
 }
 
 .barras span:last-child {
-    top: 24px;
-    background: repeating-linear-gradient(58deg, var(--nota) 0 22px, var(--giz) 22px 44px);
+    top: 22px;
+    background: repeating-linear-gradient(58deg, var(--barra-escura) 0 22px, var(--barra-clara) 22px 44px);
 }
+
+/* a placa preta, com o mesmo contorno branco das barras */
 
 .claquete-corpo {
     display: flex;
     flex: 1;
     flex-direction: column;
-    background: var(--lousa);
+    border: 2px solid var(--barra-clara);
+    border-top: 0;
+    background: var(--quadro);
 }
 
-.claquete-titulo {
+/* campos da placa, separados por linhas brancas */
+
+.celulas {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2px;
     margin: 0;
-    padding: 18px 20px 20px;
+    background: var(--barra-clara);
+}
+
+.celula {
+    min-width: 0;
+    padding: 10px 16px 14px;
+    background: var(--quadro);
+}
+
+.celula-filme { grid-column: span 3; }
+.celula-nota { grid-column: span 1; }
+.celula-metade { grid-column: span 2; }
+
+.celula dt {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+.celula .claquete-titulo {
+    margin: 4px 0 0;
     font-size: 2rem;
     font-weight: 800;
     font-stretch: 78%;
     line-height: 1.05;
     overflow-wrap: anywhere;
-}
-
-/* células do quadro, separadas por linhas de giz */
-
-.celulas {
-    display: grid;
-    flex: 1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2px;
-    margin: 0;
-    border-top: 2px solid var(--giz);
-    background: var(--giz);
-}
-
-.celula {
-    min-width: 0;
-    padding: 12px 20px 14px;
-    background: var(--lousa);
-}
-
-.celula dt {
-    font-size: 0.8125rem;
-    color: var(--giz-suave);
 }
 
 .celula dd {
@@ -299,16 +347,8 @@ h2 {
     overflow-wrap: anywhere;
 }
 
-.nota-numero {
-    font-size: 1.75rem;
-    font-weight: 800;
-    font-stretch: 78%;
-    line-height: 1.1;
-}
-
-.nota-legenda {
-    font-size: 0.9375rem;
-    color: var(--giz-suave);
+.celula.celula-nota dd {
+    margin-top: 6px;
 }
 
 .acoes,
@@ -318,8 +358,8 @@ h2 {
     align-items: center;
     gap: 10px 20px;
     margin-top: auto;
-    padding: 16px 20px;
-    border-top: 2px solid var(--giz);
+    padding: 16px;
+    border-top: 2px solid var(--barra-clara);
 }
 
 .botao-claquete {
@@ -328,34 +368,35 @@ h2 {
     gap: 8px;
     min-height: 40px;
     padding: 8px 16px;
-    border: 2px solid var(--giz);
+    border: 2px solid var(--texto-suave);
     border-radius: 4px;
-    background: var(--giz);
-    color: var(--lousa);
+    background: none;
+    color: var(--texto);
     font: 700 0.9375rem/1.2 var(--fonte);
     text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .botao-claquete:hover {
-    background: #FFFFFF;
-    border-color: #FFFFFF;
+    border-color: var(--texto);
+    background: var(--texto);
+    color: var(--fundo);
 }
 
 .botao-claquete.perigo {
     border-color: var(--perigo-claro);
-    background: none;
     color: var(--perigo-claro);
 }
 
 .botao-claquete.perigo:hover {
     background: var(--perigo-claro);
-    color: var(--lousa);
+    color: var(--fundo);
 }
 
 /* formulário na claquete */
 
 .claquete-form .celulas {
-    border-top: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .celula-larga {
@@ -369,46 +410,47 @@ h2 {
 }
 
 .campo label {
-    font-size: 0.8125rem;
-    color: var(--giz-suave);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
 }
 
 .campo input {
     width: 100%;
+    min-width: 0;
     padding: 4px 0 6px;
     border: 0;
+    border-bottom: 2px dotted #3A4A68;
     outline: 0;
     background: transparent;
-    color: var(--giz);
+    color: var(--texto);
     font: 600 1.25rem/1.3 var(--fonte);
 }
 
 .campo input::placeholder {
-    color: var(--giz-suave);
+    color: var(--texto-suave);
     opacity: 0.6;
     font-weight: 400;
 }
 
 /* o foco acende a célula inteira */
 .campo:focus-within {
-    box-shadow: inset 0 0 0 3px var(--set);
+    box-shadow: inset 0 0 0 3px var(--acento);
+}
+
+/* campo da classificação: o selo muda enquanto a pessoa digita */
+.campo-nota {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .ajuda {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--giz-suave);
-}
-
-.claquete .botao-principal {
-    border-color: var(--set);
-    background: var(--set);
-    color: var(--lousa);
-}
-
-.claquete .botao-principal:hover {
-    background: #F5CB6B;
-    border-color: #F5CB6B;
+    color: var(--texto-suave);
 }
 
 /* página de apagar */
@@ -425,20 +467,11 @@ h2 {
     border-top: 0;
 }
 
-/* resposta às ações: a barra de cima bate na claquete que acabou de ser salva */
+/* a claquete que acabou de ser criada ou atualizada ganha um contorno que some devagar */
 
 .claquete.salvo {
     position: relative;
     z-index: 1;
-}
-
-.claquete.salvo .barras span:first-child {
-    animation: bater 0.7s cubic-bezier(0.5, 0, 1, 0.5) 0.15s backwards;
-}
-
-@keyframes bater {
-    from { transform: rotate(-12deg); }
-    to { transform: rotate(0); }
 }
 
 .aviso {
@@ -450,9 +483,10 @@ h2 {
     max-width: min(92vw, 460px);
     margin: 0;
     padding: 12px 18px;
+    border: 2px solid var(--barra-clara);
     border-radius: 4px;
-    background: var(--lousa);
-    color: var(--giz);
+    background: var(--quadro);
+    color: var(--texto);
     font-weight: 600;
     transform: translateX(-50%);
 }
@@ -462,13 +496,70 @@ h2 {
 }
 
 .aviso.erro {
+    border-color: var(--perigo);
     background: var(--perigo);
     color: #FFFFFF;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .claquete.salvo .barras span:first-child {
-        animation: none;
+/* movimento: tudo suave e só para quem não pediu para reduzir animações */
+
+@media (prefers-reduced-motion: no-preference) {
+    /* as páginas trocam com um fade em vez de um corte seco */
+    @view-transition {
+        navigation: auto;
+    }
+
+    .claquete.novo {
+        animation: entrar 0.5s ease-out;
+    }
+
+    .claquete.salvo {
+        animation: destacar 1.8s ease-out;
+    }
+
+    .claquete.novo.salvo {
+        animation: entrar 0.5s ease-out, destacar 1.8s ease-out;
+    }
+
+    /* a claquete some devagar antes de a página voltar para a lista (apagar.js) */
+    .claquete.saindo {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .aviso {
+        animation: aviso-entra 0.3s ease-out;
+    }
+
+    .aviso.saindo {
+        opacity: 0;
+        transform: translate(-50%, 8px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+}
+
+@keyframes entrar {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+@keyframes destacar {
+    0%, 30% {
+        box-shadow: 0 0 0 4px rgb(125 196 232 / 0.85);
+    }
+
+    100% {
+        box-shadow: 0 0 0 4px rgb(125 196 232 / 0);
+    }
+}
+
+@keyframes aviso-entra {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 12px);
     }
 }
 
@@ -479,14 +570,12 @@ h2 {
         padding-block: 32px 28px;
     }
 
-    .claquete-titulo {
+    .celula .claquete-titulo {
         font-size: 1.75rem;
     }
 
-    .celulas {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
+    /* o nome e o selo ocupam a linha toda, o gênero e a duração dividem a de baixo */
+    .celula-filme,
     .celula-nota {
         grid-column: 1 / -1;
     }

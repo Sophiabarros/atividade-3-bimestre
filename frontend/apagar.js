@@ -34,6 +34,10 @@ botaoApagar.addEventListener("click", async () => {
 
     try {
         await chamarApi(`/delete-movie/${id}`, { method: "DELETE" })
+
+        claquete.classList.add("saindo")
+        await esperarAnimacao()
+
         location.href = "../index.html?aviso=apagado"
     } catch (erro) {
         avisar(erro.message, true)

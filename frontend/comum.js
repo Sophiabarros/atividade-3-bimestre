@@ -11,11 +11,28 @@ function escapar(texto) {
     return String(texto ?? "").replace(/[&<>"']/g, (caractere) => trocas[caractere])
 }
 
+// o aviso some devagar: a classe "saindo" faz o fade e só depois o texto é limpo
 function avisar(mensagem, erro = false) {
     clearTimeout(temporizadorAviso)
+    aviso.classList.remove("saindo")
     aviso.textContent = mensagem
     aviso.classList.toggle("erro", erro)
-    temporizadorAviso = setTimeout(() => { aviso.textContent = "" }, 5000)
+
+    temporizadorAviso = setTimeout(() => {
+        aviso.classList.add("saindo")
+
+        temporizadorAviso = setTimeout(() => {
+            aviso.textContent = ""
+            aviso.classList.remove("saindo")
+        }, 300)
+    }, 5000)
+}
+
+// espera a animação de saída terminar; quem pediu menos movimento não espera
+function esperarAnimacao(ms = 350) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return Promise.resolve()
+
+    return new Promise((resolver) => setTimeout(resolver, ms))
 }
 
 async function chamarApi(caminho, opcoes = {}) {
@@ -65,26 +82,40 @@ function faixaClassificacao(classificacao) {
     return "18"
 }
 
-// tudo que a tela precisa para mostrar a classificação de um filme
+// tudo que a tela precisa para mostrar a classificação de um filme:
+// a classe com a cor, o texto do selo (L, 10, 12...) e a descrição para leitores de tela
 function dadosNota(classificacao) {
     const nota = Number(classificacao)
     const informada = String(classificacao ?? "").trim() !== "" && !Number.isNaN(nota)
-    const livre = informada && nota === 0
-    const anos = nota === 1 ? "ano" : "anos"
+
+    if (!informada) {
+        return { classe: "nota-nd", selo: "?", descricao: "Classificação indicativa não informada" }
+    }
+
+    if (nota <= 0) {
+        return { classe: "nota-l", selo: "L", descricao: "Classificação indicativa: livre para todos os públicos" }
+    }
 
     return {
-        classe: informada ? `nota-${faixaClassificacao(nota)}` : "nota-nd",
-        numero: !informada ? "?" : livre ? "Livre" : nota,
-        legenda: !informada || livre ? "" : anos
+        classe: `nota-${faixaClassificacao(nota)}`,
+        selo: nota,
+        descricao: `Classificação indicativa: não recomendado para menores de ${nota} ${nota === 1 ? "ano" : "anos"}`
     }
 }
 
-// troca a classe nota-* do elemento, que muda a cor das barras da claquete
+// troca a classe nota-* do elemento (muda a cor do selo) e atualiza o selo dentro dele, se tiver
 function definirNota(elemento, classificacao) {
+    const nota = dadosNota(classificacao)
     const antigas = [...elemento.classList].filter((classe) => classe.startsWith("nota-"))
+    const selo = elemento.querySelector(".selo")
 
     elemento.classList.remove(...antigas)
-    elemento.classList.add(dadosNota(classificacao).classe)
+    elemento.classList.add(nota.classe)
+
+    if (selo) {
+        selo.textContent = nota.selo
+        selo.setAttribute("aria-label", nota.descricao)
+    }
 }
 
 // conteúdo da claquete, usado na lista e na página de apagar
@@ -94,19 +125,22 @@ function claqueteConteudo(filme, acoes = "") {
     return `
         <div class="barras" aria-hidden="true"><span></span><span></span></div>
         <div class="claquete-corpo">
-            <p class="claquete-titulo">${escapar(filme.titulo)}</p>
             <dl class="celulas">
-                <div class="celula">
+                <div class="celula celula-filme">
+                    <dt>Filme</dt>
+                    <dd class="claquete-titulo">${escapar(filme.titulo)}</dd>
+                </div>
+                <div class="celula celula-nota">
+                    <dt>Classif.</dt>
+                    <dd><span class="selo" role="img" aria-label="${nota.descricao}">${nota.selo}</span></dd>
+                </div>
+                <div class="celula celula-metade">
                     <dt>Gênero</dt>
                     <dd>${escapar(filme.genero)}</dd>
                 </div>
-                <div class="celula">
+                <div class="celula celula-metade">
                     <dt>Duração</dt>
                     <dd>${escapar(filme.duracao)}</dd>
-                </div>
-                <div class="celula celula-nota">
-                    <dt>Classificação</dt>
-                    <dd><span class="nota-numero">${nota.numero}</span> <span class="nota-legenda">${nota.legenda}</span></dd>
                 </div>
             </dl>
             ${acoes}

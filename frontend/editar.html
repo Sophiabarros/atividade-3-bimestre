@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#0C1220">
     <title>Editar filme</title>
 </head>
 <body data-pagina="editar">
@@ -42,8 +44,11 @@
 
                     <div class="celula campo">
                         <label for="classificacao">Classificação indicativa</label>
-                        <input type="number" id="classificacao" name="classificacao" min="0" step="1" inputmode="numeric" required aria-describedby="ajuda-classificacao">
-                        <p class="ajuda" id="ajuda-classificacao">Idade mínima em anos. Use 0 para livre.</p>
+                        <div class="campo-nota">
+                            <input type="number" id="classificacao" name="classificacao" min="0" step="1" inputmode="numeric" required aria-describedby="ajuda-classificacao">
+                            <span class="selo" role="img"></span>
+                        </div>
+                        <p class="ajuda" id="ajuda-classificacao">Idade mínima em anos. Use 0 para livre (L).</p>
                     </div>
                 </div>
 

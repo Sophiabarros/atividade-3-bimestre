@@ -47,6 +47,12 @@ function mostrarResultadoDaAcao() {
 
     if (claquete) {
         claquete.classList.add("salvo")
+
+        // filme novo entra deslizando; um filme editado só ganha o contorno
+        if (params.get("aviso") === "cadastrado") {
+            claquete.classList.add("novo")
+        }
+
         claquete.scrollIntoView({ block: "nearest" })
     }
 
