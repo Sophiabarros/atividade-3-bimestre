@@ -1,19 +1,69 @@
+const lista = document.querySelector("#lista")
+const contagem = document.querySelector("#contagem")
+
+const ICONE_EDITAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13 7l4 4"/></svg>`
+const ICONE_APAGAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg>`
+
+const MENSAGENS = {
+    cadastrado: "Filme cadastrado.",
+    atualizado: "Alterações salvas.",
+    apagado: "Filme apagado."
+}
+
+function criarIngresso(filme) {
+    const titulo = escapar(filme.titulo)
+
+    const acoes = `
+        <div class="acoes">
+            <a class="botao-ingresso" href="editar.html?id=${filme.id}" aria-label="Editar ${titulo}">${ICONE_EDITAR}Editar</a>
+            <a class="botao-ingresso perigo" href="apagar.html?id=${filme.id}" aria-label="Apagar ${titulo}">${ICONE_APAGAR}Apagar</a>
+        </div>
+    `
+
+    return `<li class="ingresso" data-id="${filme.id}">${ingressoConteudo(filme, acoes)}</li>`
+}
+
+function mostrarFilmes(filmes) {
+    contagem.textContent = filmes.length === 1 ? "1 filme cadastrado" : `${filmes.length} filmes cadastrados`
+
+    if (filmes.length === 0) {
+        lista.innerHTML = `<li class="vazio">Nenhum filme cadastrado. <a href="cadastrar.html">Cadastrar o primeiro filme</a></li>`
+        return
+    }
+
+    lista.innerHTML = filmes.map(criarIngresso).join("")
+}
+
+// depois de cadastrar, editar ou apagar, a página volta pra cá com ?aviso=...&id=...
+function mostrarResultadoDaAcao() {
+    const params = new URLSearchParams(location.search)
+    const mensagem = MENSAGENS[params.get("aviso")]
+
+    if (!mensagem) return
+
+    avisar(mensagem)
+
+    const ingresso = lista.querySelector(`[data-id="${params.get("id")}"]`)
+
+    if (ingresso) {
+        ingresso.classList.add("salvo")
+        ingresso.scrollIntoView({ block: "nearest" })
+    }
+
+    // limpa a URL pra o aviso não aparecer de novo se a página for recarregada
+    history.replaceState(null, "", location.pathname)
+}
+
 async function buscarFilmes() {
     // acessar a rota GET do backend e exibir os filmes na tela
-    const resposta = await fetch("https://backend-3-bimestre.vercel.app/all-movies")
-    const filmes = await resposta.json()
-    const sectionFilmes = document.querySelector(".filmes")
-
-    filmes.forEach((filme) => {
-        sectionFilmes.innerHTML += `
-            <div>
-                <h2>${filme.titulo}</h2>
-                <p><strong>Gênero:</strong> ${filme.genero}</p>
-                <p><strong>Duração:</strong> ${filme.duracao}</p>
-                <p><strong>Classificação indicativa:</strong> ${filme.classificacao > 0 ? filme.classificacao + ' anos' : 'Livre'}</p>
-            </div>
-        `
-    })
+    try {
+        const filmes = await chamarApi("/all-movies")
+        mostrarFilmes(filmes)
+        mostrarResultadoDaAcao()
+    } catch (erro) {
+        contagem.textContent = "Filmes cadastrados"
+        lista.innerHTML = `<li class="vazio">${escapar(erro.message)}</li>`
+    }
 }
 
 buscarFilmes()

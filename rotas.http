@@ -1,17 +1,43 @@
+### listar todos os filmes
+GET http://localhost:3333/all-movies
+
+###
+### buscar um filme pelo id
+GET http://localhost:3333/movie/1
+
+###
+### cadastrar (todos os campos são obrigatórios)
 POST http://localhost:3333/create-movie
 Content-Type: application/json
 
 {
     "titulo" : "Razões do porquê eu deveria explodir a escola",
     "genero" : "documentário",
-    "duracao" : "153 minutos", 
-    "classificacao" : "18"
+    "duracao" : "153 minutos",
+    "classificacao" : 18
 }
 
 ###
-DELETE http://localhost:3333/delete-movie/1
+### atualizar só a classificação (os outros campos ficam como estão)
+PUT http://localhost:3333/update-movie/1
+Content-Type: application/json
+
+{
+    "classificacao" : 14
+}
 
 ###
-GET http://localhost:3333/all-movies
+### atualizar vários campos de uma vez
+PUT http://localhost:3333/update-movie/1
+Content-Type: application/json
+
+{
+    "titulo" : "tcc, o retorno",
+    "genero" : "terror",
+    "duracao" : "107 minutos",
+    "classificacao" : 16
+}
+
 ###
-PUT http://localhost:3333/update-movie/
+### apagar
+DELETE http://localhost:3333/delete-movie/1

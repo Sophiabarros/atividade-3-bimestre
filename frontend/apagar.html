@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Apagar filme</title>
+</head>
+<body data-pagina="apagar">
+    <header class="topo coluna estreita">
+        <a class="voltar" href="index.html">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            Voltar para a lista
+        </a>
+        <h1>Apagar filme</h1>
+    </header>
+
+    <main class="coluna estreita">
+        <p class="estado" id="estado">Carregando filme...</p>
+
+        <section id="confirmacao" hidden>
+            <p class="texto-confirmacao">Este filme será removido da lista. Essa ação não pode ser desfeita.</p>
+
+            <article class="ingresso" id="ingresso"></article>
+
+            <div class="formulario-acoes">
+                <button type="button" class="botao-perigo" id="botao-apagar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg>
+                    Apagar filme
+                </button>
+                <a class="botao-texto" href="index.html">Cancelar</a>
+            </div>
+        </section>
+    </main>
+
+    <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
+
+    <script src="comum.js"></script>
+    <script src="apagar.js"></script>
+</body>
+</html>
