@@ -8,7 +8,7 @@ const id = idDaUrl()
 
 function mostrarErro(mensagem) {
     estado.hidden = false
-    estado.innerHTML = `${escapar(mensagem)} <a href="../index.html">Voltar para a lista</a>`
+    estado.innerHTML = `${escapar(mensagem)} <a href="index.html">Voltar para a lista</a>`
 }
 
 async function carregarFilme() {
@@ -38,7 +38,7 @@ botaoApagar.addEventListener("click", async () => {
         claquete.classList.add("saindo")
         await esperarAnimacao()
 
-        location.href = "../index.html?aviso=apagado"
+        location.href = "index.html?aviso=apagado"
     } catch (erro) {
         avisar(erro.message, true)
         botaoApagar.disabled = false
